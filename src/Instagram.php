@@ -698,9 +698,9 @@ class Instagram
         // convert header content into an array
         $headers = $this->processHeaders($headerContent);
         
-        // get the 'X-Ratelimit-Remaining' header value
-        if (isset($headers['X-Ratelimit-Remaining'])) {
-            $this->_xRateLimitRemaining = trim($headers['X-Ratelimit-Remaining']);
+        // get the 'x-ratelimit-remaining' header value
+        if (isset($headers['x-ratelimit-remaining'])) {
+            $this->_xRateLimitRemaining = trim($headers['x-ratelimit-remaining']);
         }
 
         curl_close($ch);

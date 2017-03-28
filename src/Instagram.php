@@ -81,11 +81,18 @@ class Instagram
     private $_actions = array('follow', 'unfollow', 'approve', 'ignore');
     
     /**
-     * Rate limit.
+     * Rate limit remaining.
      *
      * @var int
      */
     private $_xRateLimitRemaining;
+    
+    /**
+     * Rate limit.
+     *
+     * @var int
+     */
+    private $_xRateLimit;
 
     /**
      * Proxy server.
@@ -316,13 +323,23 @@ class Instagram
     }
     
     /**
-     * Get the value of X-RateLimit-Remaining header field.
+     * Get the value of x-ratelimit-remaining header field.
      *
-     * @return int X-RateLimit-Remaining API calls left within 1 hour
+     * @return int x-ratelimit-remaining API calls left within 1 hour
+     */
+    public function getRateLimitRemaining()
+    {
+        return $this->_xRateLimitRemaining;
+    }
+    
+    /**
+     * Get the value of x-ratelimit-limit header field.
+     *
+     * @return int x-ratelimit-limit API calls left within 1 hour
      */
     public function getRateLimit()
     {
-        return $this->_xRateLimitRemaining;
+        return $this->_xRateLimit;
     }
 
     /**
@@ -701,6 +718,11 @@ class Instagram
         // get the 'x-ratelimit-remaining' header value
         if (isset($headers['x-ratelimit-remaining'])) {
             $this->_xRateLimitRemaining = trim($headers['x-ratelimit-remaining']);
+        }
+        
+        // get the 'x-ratelimit-limit' header value
+        if (isset($headers['x-ratelimit-limit'])) {
+            $this->_xRateLimit = trim($headers['x-ratelimit-limit']);
         }
 
         curl_close($ch);
